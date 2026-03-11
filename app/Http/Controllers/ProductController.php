@@ -4,21 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Repositories\ProductRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use App\Models\Product;
 use Flash;
 use Response;
 
 class ProductController extends AppBaseController
 {
-    /** @var ProductRepository $productRepository*/
-    private $productRepository;
+    
 
-    public function __construct(ProductRepository $productRepo)
-    {
-        $this->productRepository = $productRepo;
-    }
+   
 
     /**
      * Display a listing of the Product.
