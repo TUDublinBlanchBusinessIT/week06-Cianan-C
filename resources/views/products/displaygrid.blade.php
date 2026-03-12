@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
         <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item me-2">
-                <button id="checkOut" onclick="window.location.href=''" type="button" class="btn btn-primary">
+                <button id="checkOut" onclick="window.location.href='{{ route('scorder.checkout') }}'" type="button" class="btn btn-primary navbar-btn center-block">
                     Check Out
                 </button>
             </li>

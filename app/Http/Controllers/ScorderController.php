@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateScorderRequest;
 use App\Repositories\ScorderRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Flash;
 use Response;
 
@@ -34,6 +35,49 @@ class ScorderController extends AppBaseController
         return view('scorders.index')
             ->with('scorders', $scorders);
     }
+
+    public function checkout()
+{
+    if (Session::has('cart')) {
+        $cart = Session::get('cart');
+        $lineitems = array();
+
+        foreach ($cart as $productid => $qty) {
+            $lineitem['product'] = \App\Models\Product::find($productid);
+            $lineitem['qty'] = $qty;
+            $lineitems[] = $lineitem;
+        }
+
+        return view('scorders.checkout')->with('lineitems', $lineitems);
+    } else {
+        Flash::error('There are no items in your cart');
+        return redirect(route('products.displaygrid'));
+    }
+}
+
+public function placeorder(Request $request)
+{
+    $thisOrder = new \App\Models\Scorder();
+    $thisOrder->orderdate = (new \DateTime())->format("Y-m-d H:i:s");
+    $thisOrder->save();
+
+    $orderID = $thisOrder->id;
+    $productids = $request->productid;
+    $quantities = $request->quantity;
+
+    for ($i = 0; $i < sizeof($productids); $i++) {
+        $thisOrderDetail = new \App\Models\Orderdetail();
+        $thisOrderDetail->orderid = $orderID;
+        $thisOrderDetail->productid = $productids[$i];
+        $thisOrderDetail->quantity = $quantities[$i];
+        $thisOrderDetail->save();
+    }
+
+    Session::forget('cart');
+    Flash::success('Your Order has Been Placed');
+
+    return redirect(route('products.displaygrid'));
+}
 
     /**
      * Show the form for creating a new Scorder.

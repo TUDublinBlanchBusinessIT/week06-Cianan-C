@@ -35,3 +35,9 @@ Route::get('product/additem/{id}', 'App\Http\Controllers\ProductController@addit
 
 
 Route::get('product/emptycart', 'App\Http\Controllers\ProductController@emptycart')->name('product.emptycart');
+
+
+Route::get('scorder/checkout', 'App\Http\Controllers\ScorderController@checkout')->name('scorder.checkout');
+
+
+Route::post('scorder/placeorder', 'App\Http\Controllers\ScorderController@placeorder')->name('scorder.placeorder');
