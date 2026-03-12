@@ -1,5 +1,32 @@
 @extends('layouts.app')
 @section('content')
+
+<div style="padding-top:1%">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+        <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item me-2">
+                <button id="checkOut" onclick="window.location.href=''" type="button" class="btn btn-primary">
+                    Check Out
+                </button>
+            </li>
+            <li class="nav-item me-2">
+                <button id="emptycart" type="button" class="btn btn-primary">
+                    Empty Cart
+                </button>
+            </li>
+            <li class="nav-item text-white me-2">
+                🛒
+            </li>
+            <li class="nav-item">
+                <div class="navbar-text text-white" id="shoppingcart">0</div>
+            </li>
+            <li class="nav-item">
+                <div class="navbar-text text-white ms-1">Item(s)</div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 @include('flash::message')
 
 <div class='d-flex flex-wrap align-content-start bg-light'>
@@ -37,5 +64,24 @@ Add To Cart
 @endforeach
 
 </div>
+
+<script>
+$(document).ready(function () {
+    $(".addItem").click(function () {
+        var i = $(this).val();
+
+        $.ajax({
+            url: "{{ url('product/additem') }}/" + i,
+            type: "GET",
+            success: function (response) {
+                $('#shoppingcart').text(response.total);
+            },
+            error: function () {
+                alert("Problem communicating with the server");
+            }
+        });
+    });
+});
+</script>
 
 @endsection('content')

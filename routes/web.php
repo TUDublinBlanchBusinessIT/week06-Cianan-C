@@ -29,3 +29,6 @@ Route::resource('orderdetails', App\Http\Controllers\OrderdetailController::clas
 
 
 Route::get('product/displaygrid', 'App\Http\Controllers\ProductController@displayGrid')->name('products.displaygrid');
+
+
+Route::get('product/additem/{id}', 'App\Http\Controllers\ProductController@additem')->name('products.additem');

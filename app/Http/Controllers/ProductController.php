@@ -6,9 +6,10 @@ use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Response;
 use App\Models\Product;
 use Flash;
-use Response;
 
 class ProductController extends AppBaseController
 {
@@ -45,6 +46,30 @@ class ProductController extends AppBaseController
 {
     $products = \App\Models\Product::all();
     return view('products.displaygrid')->with('products', $products);
+}
+
+public function additem($productid)
+{
+    $cart = [];
+
+    if (Session::has('cart')) {
+        $cart = Session::get('cart');
+
+        if (isset($cart[$productid])) {
+            $cart[$productid] = $cart[$productid] + 1;
+        } else {
+            $cart[$productid] = 1;
+        }
+    } else {
+        $cart[$productid] = 1;
+    }
+
+    Session::put('cart', $cart);
+
+    return Response::json([
+        'success' => true,
+        'total' => array_sum($cart)
+    ], 200);
 }
 
     /**
