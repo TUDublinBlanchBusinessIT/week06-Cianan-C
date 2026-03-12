@@ -18,7 +18,7 @@
                 🛒
             </li>
             <li class="nav-item">
-                <div class="navbar-text text-white" id="shoppingcart">0</div>
+                <div class="navbar-text text-white" id="shoppingcart">{{ $totalItems }}</div>
             </li>
             <li class="nav-item">
                 <div class="navbar-text text-white ms-1">Item(s)</div>
@@ -80,6 +80,19 @@ $(document).ready(function () {
                 alert("Problem communicating with the server");
             }
         });
+    });
+});
+
+$("#emptycart").click(function () {
+    $.ajax({
+        type: "GET",
+        url: "{{ url('product/emptycart') }}",
+        success: function () {
+            $('#shoppingcart').text(0);
+        },
+        error: function () {
+            alert("Problem communicating with the server");
+        }
     });
 });
 </script>
