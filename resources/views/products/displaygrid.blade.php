@@ -4,6 +4,16 @@
 <div style="padding-top:1%">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
         <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item" style="margin-right:5px;">
+                <select id="colourselect" class="form-select" size="1">
+                    <option value="All">All</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Red">Red</option>
+                    <option value="Green">Green</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Orange">Orange</option>
+                </select>
+            </li>
             <li class="nav-item me-2">
                 <button id="checkOut" onclick="window.location.href='{{ route('scorder.checkout') }}'" type="button" class="btn btn-primary navbar-btn center-block">
                     Check Out
@@ -33,7 +43,7 @@
 
 @foreach($products as $product)
 
-<div class="p-2 border col-4 g-3">
+<div class="p-2 border col-4 g-3 allcolours {{ $product->colour }}">
 
 <div class="card text-center">
 
@@ -94,6 +104,17 @@ $("#emptycart").click(function () {
             alert("Problem communicating with the server");
         }
     });
+});
+
+$("#colourselect").on('change', function () {
+    var colour = $(this).find(":selected").val();
+
+    if (colour == 'All') {
+        $('.allcolours').show();
+    } else {
+        $('.allcolours').hide();
+        $('.' + colour).show();
+    }
 });
 </script>
 
